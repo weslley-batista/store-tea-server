@@ -7,16 +7,20 @@ import {
   Patch,
   Param,
   Delete,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { Prisma } from '@prisma/client';
+// import { Prisma } from '@prisma/client';
+import { ProductDto } from './product.dto';
 
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post()
-  create(@Body() createProductDto: Prisma.ProductCreateInput) {
+  @UsePipes(ValidationPipe)
+  create(@Body() createProductDto: ProductDto) {
     return this.productService.create(createProductDto);
   }
 

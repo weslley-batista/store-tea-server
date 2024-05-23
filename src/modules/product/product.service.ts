@@ -1,18 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import ProductRepository from './product.repository';
-import { Prisma } from '@prisma/client';
+// import { Prisma } from '@prisma/client';
+import { ProductDto } from './product.dto';
 
 @Injectable()
 export class ProductService {
-  create(createProductDto: Prisma.ProductCreateInput) {
+  async create(createProductDto: ProductDto) {
     try {
-      const existsProduct = ProductRepository.findByName(createProductDto.name);
+      const existsProduct = await ProductRepository.findByName(
+        createProductDto.name,
+      );
 
-      if (!existsProduct) {
+      if (existsProduct) {
         throw new Error('Product already exists and cannot be created');
       }
 
-      const newProduct = ProductRepository.create(createProductDto);
+      const newProduct = await ProductRepository.create(createProductDto);
 
       if (!newProduct) {
         throw new Error('Product not created');
@@ -24,46 +27,49 @@ export class ProductService {
     }
   }
 
-  findAll() {
+  async findAll() {
     try {
-      const products = ProductRepository.findAll();
+      const products = await ProductRepository.findAll();
       return products;
     } catch (err) {
       throw new Error(err);
     }
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     try {
-      const product = ProductRepository.findOne(id);
+      const product = await ProductRepository.findOne(id);
       return product;
     } catch (err) {
       throw new Error(err);
     }
   }
 
-  update(id: number, updateProductDto) {
+  async update(id: number, updateProductDto) {
     try {
-      const product = ProductRepository.findOne(id);
+      const product = await ProductRepository.findOne(id);
       if (!product) {
         throw new Error('Product not found');
       }
 
-      const updatedProduct = ProductRepository.update(id, updateProductDto);
+      const updatedProduct = await ProductRepository.update(
+        id,
+        updateProductDto,
+      );
       return updatedProduct;
     } catch (err) {
       throw new Error(err);
     }
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     try {
-      const product = ProductRepository.findOne(id);
+      const product = await ProductRepository.findOne(id);
       if (!product) {
         throw new Error('Product not found');
       }
 
-      const deletedProduct = ProductRepository.remove(id);
+      const deletedProduct = await ProductRepository.remove(id);
       return deletedProduct;
     } catch (err) {
       throw new Error(err);
