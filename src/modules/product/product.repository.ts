@@ -7,11 +7,17 @@ class ProductRepository {
   constructor(private prisma: PrismaService) {}
 
   async create(data: Prisma.ProductCreateInput) {
-    return this.prisma.product.create({ data });
+    const product = await this.prisma.product.create({
+      data,
+    });
+
+    return product;
   }
 
   async findAll() {
-    return this.prisma.product.findMany();
+    const products = await this.prisma.product.findMany();
+
+    return products;
   }
 
   async findByName(name: string) {
@@ -23,22 +29,28 @@ class ProductRepository {
   }
 
   async findOne(id: number) {
-    return this.prisma.product.findUnique({
+    const product = await this.prisma.product.findUnique({
       where: { id },
     });
+
+    return product;
   }
 
   async update(id: number, data: Prisma.ProductUpdateInput) {
-    return this.prisma.product.update({
+    const product = await this.prisma.product.update({
       where: { id },
       data,
     });
+
+    return product;
   }
 
   async remove(id: number) {
-    return this.prisma.product.delete({
+    const product = await this.prisma.product.delete({
       where: { id },
     });
+
+    return product;
   }
 }
 
