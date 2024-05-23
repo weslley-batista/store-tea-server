@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { ProductDto } from './product.dto';
 import ProductRepository from './product.repository';
 import { Prisma } from '@prisma/client';
 
@@ -7,9 +6,7 @@ import { Prisma } from '@prisma/client';
 export class ProductService {
   create(createProductDto: Prisma.ProductCreateInput) {
     try {
-      const product = ProductDto.parse(createProductDto);
-
-      const existsProduct = ProductRepository.findByName(product.name);
+      const existsProduct = ProductRepository.findByName(createProductDto.name);
 
       if (!existsProduct) {
         throw new Error('Product already exists and cannot be created');
