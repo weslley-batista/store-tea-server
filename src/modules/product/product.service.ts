@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import ProductRepository from './product.repository';
-import { ProductDto } from './product.dto';
+import { ProductDto, ProductUpdateDto } from './product.dto';
 
 @Injectable()
 export class ProductService {
@@ -44,7 +44,7 @@ export class ProductService {
     }
   }
 
-  async update(id: number, updateProductDto) {
+  async update(id: number, updateProductDto: ProductDto | ProductUpdateDto) {
     try {
       const product = await ProductRepository.findOne(id);
       if (!product) {

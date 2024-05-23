@@ -11,8 +11,9 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { ProductDto } from './product.dto';
-
+import { ProductDto, ProductUpdateDto } from './product.dto';
+import { ApiTags } from '@nestjs/swagger';
+@ApiTags('product')
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
@@ -34,12 +35,17 @@ export class ProductController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateProductDto) {
+  @UsePipes(ValidationPipe)
+  update(@Param('id') id: string, @Body() updateProductDto: ProductDto) {
     return this.productService.update(+id, updateProductDto);
   }
 
   @Patch(':id')
-  updatePartial(@Param('id') id: string, @Body() updateProductDto) {
+  @UsePipes(ValidationPipe)
+  updatePartial(
+    @Param('id') id: string,
+    @Body() updateProductDto: ProductUpdateDto,
+  ) {
     return this.productService.update(+id, updateProductDto);
   }
 
