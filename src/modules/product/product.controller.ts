@@ -11,7 +11,6 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
-// import { Prisma } from '@prisma/client';
 import { ProductDto } from './product.dto';
 
 @Controller('product')
