@@ -11,7 +11,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { ProductDto, ProductUpdateDto } from './product.dto';
+import { ProductDto, buyProductDto } from './product.dto';
 import { ApiTags } from '@nestjs/swagger';
 @ApiTags('product')
 @Controller('product')
@@ -44,9 +44,9 @@ export class ProductController {
   @UsePipes(ValidationPipe)
   updatePartial(
     @Param('id') id: string,
-    @Body() updateProductDto: ProductUpdateDto,
+    @Body() updateProductDto: buyProductDto,
   ) {
-    return this.productService.update(+id, updateProductDto);
+    return this.productService.buy(+id, updateProductDto);
   }
 
   @Delete(':id')

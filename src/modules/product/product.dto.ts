@@ -64,3 +64,12 @@ export class ProductUpdateDto {
   @IsNumber()
   stock: number;
 }
+
+export class buyProductDto {
+  @ApiProperty({
+    example: 5,
+    description: `A quantidade a ser comprada do produto. Deve ser um número inteiro > 0.`,
+  })
+  @IsNumber()
+  quantity: number;
+}

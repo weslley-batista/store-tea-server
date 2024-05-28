@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import ProductRepository from './product.repository';
-import { ProductDto, ProductUpdateDto } from './product.dto';
+import { ProductDto, ProductUpdateDto, buyProductDto } from './product.dto';
 
 @Injectable()
 export class ProductService {
@@ -70,6 +70,29 @@ export class ProductService {
 
       const deletedProduct = await ProductRepository.remove(id);
       return deletedProduct;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async buy(id: number, updateProductDto: buyProductDto) {
+    try {
+      const product = await ProductRepository.findOne(id);
+      if (!product) {
+        throw new Error('Product not found');
+      }
+
+      if (product.stock < updateProductDto.quantity) {
+        throw new Error('Insufficient stock');
+      }
+
+      const updateStock = product.stock - updateProductDto.quantity;
+
+      const updatedProduct = await ProductRepository.update(id, {
+        stock: updateStock,
+      });
+
+      return updatedProduct;
     } catch (err) {
       throw new Error(err);
     }
