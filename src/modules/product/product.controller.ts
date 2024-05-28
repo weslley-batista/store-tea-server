@@ -40,7 +40,7 @@ export class ProductController {
     return this.productService.update(+id, updateProductDto);
   }
 
-  @Patch(':id')
+  @Patch('buy/:id')
   @UsePipes(ValidationPipe)
   updatePartial(
     @Param('id') id: string,
